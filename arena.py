@@ -26,10 +26,15 @@ def main():
 
     rewards = evaluate(args.env, [resolve(args.a), resolve(args.b)], num_episodes=args.n)
 
-    win = sum(1 for r in rewards if r[0] > r[1])
-    loss = sum(1 for r in rewards if r[0] < r[1])
+    # reward 가 None 이면 그 봇이 ERROR / TIMEOUT / 무효 명령으로 몰수패 한 것이다.
+    # 패배로 세되 따로 표시한다 — 조용히 넘어가면 진짜 문제를 놓친다.
+    err = sum(1 for r in rewards if r[0] is None)
+    win = sum(1 for r in rewards if r[0] is not None and (r[1] is None or r[0] > r[1]))
+    loss = sum(1 for r in rewards if r[0] is None or (r[1] is not None and r[0] < r[1]))
     draw = len(rewards) - win - loss
-    print(f"{args.a} vs {args.b}  ->  W{win} L{loss} D{draw}   승률 {win / len(rewards):.0%}")
+
+    tail = f"   [내 봇 몰수패 {err}판]" if err else ""
+    print(f"{args.a} vs {args.b}  ->  W{win} L{loss} D{draw}   승률 {win / len(rewards):.0%}{tail}")
 
 
 if __name__ == "__main__":
