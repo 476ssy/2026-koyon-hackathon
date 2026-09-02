@@ -37,67 +37,22 @@ import math
 
 
 def distance(a, b):
-  """행성 a 에서 b 까지 걸리는 턴 수."""
-  return math.ceil(math.hypot(a[1] - b[1], a[2] - b[2]))
+    """행성 a 에서 b 까지 걸리는 턴 수."""
+    return math.ceil(math.hypot(a[1] - b[1], a[2] - b[2]))
+
 
 def agent(obs, config=None):
-  me = obs["player"]
-  enemy = 3 - me
+    me = obs["player"]
+    planets = obs["planets"]
 
-  planets = obs["planets"]
-  my_planets = []
-  num_my_planets = 0
-  num_my_ships = 0
+    # TODO: 여기를 채운다.
+    #
+    # 가장 단순한 출발점 — 내 행성마다 함선 절반을 어딘가 내 것이 아닌 행성으로 보낸다.
+    # 그것만으로 do_nothing 은 이긴다. 이긴 다음에 목표 선택을 개선한다.
+    #
+    # 생각해볼 것:
+    #   - 어느 행성을 칠까? 가까운 곳 / 성장률 높은 곳 / 수비가 약한 곳
+    #   - 몇 척을 보낼까? 절반은 게으른 답이다. 점령에 필요한 최소는 몇인가?
+    #   - 도착할 때쯤 그 행성의 함선은 몇 척이 되어 있을까?
 
-  enemy_planets = []
-  num_enemy_planets = 0
-  num_enemy_ships = 0
-
-  neutral_planets = []
-
-  move = []
-
-  for p in planets :
-    if p[3] == me :
-      my_planets.append(p)
-      num_my_planets += 1
-      num_my_ships += p[4]
-    elif p[3] == enemy :
-      enemy_planets.append(p)
-      num_enemy_planets += 1
-      num_enemy_ships += p[4]
-    else :
-      neutral_planets.append(p)
-          
-  if num_my_ships >= 500 :
-    for p in my_planets :
-      min_distence = 99999
-      min_planet = -1
-      for e in enemy_planets :
-        d = distance(p, e)
-        if d < min_distence :
-          min_distence = d
-          min_planet = e[0]
-      if min_planet == -1 : continue
-      ships = p[4]
-      if ships <= 0:
-        continue
-      move.append([p[0], min_planet, ships])
-    return move
-  
-  for p in my_planets :
-    min_distence = 99999
-    min_planet = -1
-    for n in neutral_planets :
-      d = distance(p, n)
-      if d < min_distence :
-        min_distence = d
-        min_planet = n[0]
-    if min_planet == -1 : continue
-    ships = p[4] // 2
-    if ships <= 0:
-      continue
-
-    move.append([p[0], min_planet, ships])
-
-  return move
+    return []
