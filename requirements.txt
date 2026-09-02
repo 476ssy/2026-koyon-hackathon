@@ -1,0 +1,17 @@
+# Setup (Windows, Python 3.14):
+#   python -m venv .venv
+#   .venv/Scripts/python.exe -m pip install --no-deps kaggle-environments==1.32.7
+#   .venv/Scripts/python.exe -m pip install -r requirements.txt
+#
+# --no-deps is required: kaggle-environments declares jax, open_spiel,
+# transformers and pygame, none of which reinforce_tactics uses, and
+# pygame/open_spiel have no Python 3.14 wheels. Everything below is what the
+# env actually imports at runtime.
+numpy
+pandas
+jsonschema
+requests
+Flask
+pyjson5
+termcolor
+pydantic
